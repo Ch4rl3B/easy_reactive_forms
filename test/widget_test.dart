@@ -11,6 +11,7 @@ import 'package:easy_reactive_forms/my_home_page.dart';
 import 'package:easy_reactive_forms/reactive_form_example.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import 'test_app.dart';
 
@@ -77,6 +78,15 @@ void main() {
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(Form), findsOneWidget);
+    });
+  });
+  group('On ReactiveFormExample Page', () {
+    testWidgets('all widgets are present', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: ReactiveFormExample()));
+
+      expect(find.byType(AppBar), findsOneWidget);
+      expect(find.byType(ReactiveForm), findsOneWidget);
     });
   });
 }
