@@ -1,3 +1,5 @@
+import 'package:easy_reactive_forms/flutter_form_example.dart';
+import 'package:easy_reactive_forms/reactive_form_example.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -37,7 +39,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void onFlutterPressed() {}
+  void onFlutterPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (_) => const FlutterFormExample(),
+      ),
+    );
+  }
 
-  void onReactivePressed() {}
+  void onReactivePressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (_) => const ReactiveFormExample(),
+      ),
+    );
+  }
 }
