@@ -10,7 +10,11 @@ class ReactiveFormExample extends StatefulWidget {
 
 class _ReactiveFormExampleState extends State<ReactiveFormExample> {
 
-  final _form = FormGroup({});
+  final _form = FormGroup({
+    'text': FormControl<String>(
+      validators: [Validators.required],
+    ),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +24,24 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
       ),
       body: ReactiveForm(
         formGroup: _form,
-        child: Column(
-          children: const <Widget>[
-            // Add ReactiveTextField and ElevatedButton here.
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 24,
+          ),
+          child: Column(
+            children: <Widget>[
+              ReactiveTextField<String>(
+                formControlName: 'text',
+                validationMessages: (_) => {
+                  ValidationMessage.required : 'Please enter some text'
+                },
+              ),
+              // Add ElevatedButton here.
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

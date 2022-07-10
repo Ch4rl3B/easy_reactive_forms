@@ -20,10 +20,27 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
       ),
       body: Form(
         key: _formKey,
-        child: Column(
-          children: const <Widget>[
-            // Add TextFormFields and ElevatedButton here.
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 24,
+          ),
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                key: const Key("text"),
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              // ElevatedButton here.
+            ],
+          ),
         ),
       ),
     );

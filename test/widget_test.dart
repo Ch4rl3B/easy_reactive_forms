@@ -78,6 +78,34 @@ void main() {
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(Form), findsOneWidget);
+      expect(find.byType(TextFormField), findsOneWidget);
+    });
+    testWidgets('when text field has value a validation error is not shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byType(TextFormField), 'hello');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Please enter some text'), findsNothing);
+    });
+    testWidgets('when text field is cleared a validation error is shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byType(TextFormField), 'hello');
+      await tester.enterText(find.byType(TextFormField), '');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Please enter some text'), findsOneWidget);
     });
   });
   group('On ReactiveFormExample Page', () {
@@ -87,6 +115,33 @@ void main() {
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(ReactiveForm), findsOneWidget);
+      expect(find.byType(ReactiveTextField<String>), findsOneWidget);
+    });
+    testWidgets('when text field has value a validation error is not shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: ReactiveFormExample()));
+
+      //When
+      await tester.enterText(find.byType(ReactiveTextField<String>), 'hello');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
+
+      //Then
+      expect(find.text('Please enter some text'), findsNothing);
+    });
+    testWidgets('when text field is cleared a validation error is shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: ReactiveFormExample()));
+
+      //When
+      await tester.enterText(find.byType(ReactiveTextField<String>), '');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Please enter some text'), findsOneWidget);
     });
   });
 }
