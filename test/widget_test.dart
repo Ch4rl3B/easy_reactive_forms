@@ -146,7 +146,7 @@ void main() {
       await tester.pump();
 
       //Then
-      expect(find.text('Please enter some text'), findsOneWidget);
+      expect(find.text('Please enter email'), findsOneWidget);
     });
 
     testWidgets('when email is not a valid email string show validation error',
@@ -191,13 +191,16 @@ void main() {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
+      final element = find.byType(ElevatedButton);
+
       //When
-      await tester.tap(find.byKey(const Key('submit')));
+      await tester.tap(element);
       await tester.pumpAndSettle();
 
       //Then
       expect(find.byType(SnackBar), findsNothing);
       expect(find.text('Incorrect pattern: invalid email'), findsOneWidget);
+      expect(tester.widget<ElevatedButton>(element).enabled, isFalse);
     });
 
     testWidgets(
@@ -213,12 +216,15 @@ void main() {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
+      final element = find.byType(ElevatedButton);
+
       //When
-      await tester.tap(find.byKey(const Key('submit')));
+      await tester.tap(element);
       await tester.pumpAndSettle();
 
       //Then
       expect(find.byType(SnackBar), findsNothing);
+      expect(tester.widget<ElevatedButton>(element).enabled, isFalse);
     });
 
     testWidgets('when all fields are ok snackbar is shown',
@@ -348,7 +354,7 @@ void main() {
       expect(find.text('Incorrect pattern: invalid email'), findsNothing);
     });
 
-    testWidgets('when a field is invalid no snackbar is shown',
+    testWidgets('when a field is invalid submit button is disabled',
         (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const TestApp(child: ReactiveFormExample()));
@@ -360,14 +366,17 @@ void main() {
       await tester.tap(find.byKey(const Key('radio')));
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
+      
+      final element = find.byType(ElevatedButton);
 
       //When
-      await tester.tap(find.byKey(const Key('submit')));
+      await tester.tap(element);
       await tester.pumpAndSettle();
 
       //Then
       expect(find.byType(SnackBar), findsNothing);
       expect(find.text('Incorrect pattern: invalid email'), findsOneWidget);
+      expect(tester.widget<ElevatedButton>(element).enabled, isFalse);
     });
 
     testWidgets(
@@ -383,12 +392,15 @@ void main() {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
+      final element = find.byType(ElevatedButton);
+
       //When
-      await tester.tap(find.byKey(const Key('submit')));
+      await tester.tap(element);
       await tester.pumpAndSettle();
 
       //Then
       expect(find.byType(SnackBar), findsNothing);
+      expect(tester.widget<ElevatedButton>(element).enabled, isFalse);
     });
 
     testWidgets('when all fields are ok snackbar is shown',

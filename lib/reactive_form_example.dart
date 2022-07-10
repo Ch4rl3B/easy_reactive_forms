@@ -26,6 +26,7 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
 
   @override
   Widget build(BuildContext context) {
+    print('${DateTime.now()}: ReactiveFormExample built');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reactive Form Example'),
@@ -89,8 +90,7 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
                 ReactiveFormConsumer(
                   key: const Key('submit'),
                   builder: (context, form, _) => ElevatedButton(
-                    onPressed: () {
-                      if (form.valid) {
+                    onPressed: form.valid ? () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Column(
@@ -105,8 +105,7 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
                             backgroundColor: Colors.greenAccent,
                           ),
                         );
-                      }
-                    },
+                    } : null,
                     child: const Text('Submit'),
                   ),
                 ),

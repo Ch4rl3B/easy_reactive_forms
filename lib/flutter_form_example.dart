@@ -14,15 +14,19 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
   final _nickname = TextEditingController();
   final _email = TextEditingController();
   final _comment = TextEditingController();
+  bool _isValidated = false;
 
   @override
   Widget build(BuildContext context) {
+    print('${DateTime.now()}: FlutterFormExample built');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Form Example'),
       ),
       body: Form(
         key: _formKey,
+        onChanged: () =>
+            setState(() => _isValidated = _formKey.currentState!.validate()),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 16,
@@ -64,7 +68,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return 'Please enter email';
                     }
                     final pattern = RegExp(r'.+\@.+\..+');
                     if (!pattern.hasMatch(value)) {
@@ -106,24 +110,24 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                 const SizedBox(height: 4),
                 ElevatedButton(
                   key: const Key('submit'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Nickname: ${_nickname.text}'),
-                              Text('Email: ${_email.text}'),
-                              Text('Comment: ${_comment.text}'),
-                            ],
-                          ),
-                          backgroundColor: Colors.greenAccent,
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: _isValidated
+                      ? () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Nickname: ${_nickname.text}'),
+                                  Text('Email: ${_email.text}'),
+                                  Text('Comment: ${_comment.text}'),
+                                ],
+                              ),
+                              backgroundColor: Colors.greenAccent,
+                            ),
+                          );
+                        }
+                      : null,
                   child: const Text('Submit'),
                 ),
               ],
