@@ -24,6 +24,7 @@ void main() {
       expect(find.byType(MyHomePage), findsOneWidget);
       expect(find.text(title), findsOneWidget);
     });
+
     testWidgets('MyHomeView widgets are present', (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const MyApp());
@@ -35,6 +36,7 @@ void main() {
       expect(find.text('Reactive Form example'), findsOneWidget);
     });
   });
+
   group('On Home Page', () {
     testWidgets(
         'when flutter example button is pressed '
@@ -53,6 +55,7 @@ void main() {
       //Then
       expect(find.byType(FlutterFormExample), findsOneWidget);
     });
+
     testWidgets(
         'when reactive example button is pressed '
         'then navigate to ReactiveFormExample', (WidgetTester tester) async {
@@ -71,6 +74,7 @@ void main() {
       expect(find.byType(ReactiveFormExample), findsOneWidget);
     });
   });
+
   group('On FlutterFormExample Page', () {
     testWidgets('all widgets are present', (WidgetTester tester) async {
       // Build our app and trigger a frame.
@@ -84,7 +88,161 @@ void main() {
       expect(find.byKey(const Key('radio')), findsOneWidget);
       expect(find.byKey(const Key('submit')), findsOneWidget);
     });
+
+    testWidgets('when nickname is cleared show validation error',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello');
+      await tester.enterText(find.byKey(const Key('nickname')), '');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Please enter some text'), findsOneWidget);
+    });
+
+    testWidgets('when nickname has invalid characters show validation error',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello world');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(
+          find.text('Incorrect pattern: invalid characters'), findsOneWidget);
+    });
+
+    testWidgets(
+        'when nickname has valid characters no validation error is show',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello_world');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Incorrect pattern: invalid characters'), findsNothing);
+    });
+
+    testWidgets('when email is cleared show validation error',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('email')), 'hello');
+      await tester.enterText(find.byKey(const Key('email')), '');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Please enter some text'), findsOneWidget);
+    });
+
+    testWidgets('when email is not a valid email string show validation error',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('email')), 'hello');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Incorrect pattern: invalid email'), findsOneWidget);
+    });
+
+    testWidgets(
+        'when email is a valid email string no validation error is show',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //When
+      await tester.enterText(find.byKey(const Key('email')), 'hello@mail.de');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //Then
+      expect(find.text('Incorrect pattern: invalid email'), findsNothing);
+    });
+
+    testWidgets('when a field is invalid no snackbar is shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //Given
+      await tester.enterText(find.byKey(const Key('email')), 'hello');
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello');
+      await tester.enterText(find.byKey(const Key('comment')), 'failed test');
+      await tester.tap(find.byKey(const Key('radio')));
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //When
+      await tester.tap(find.byKey(const Key('submit')));
+      await tester.pumpAndSettle();
+
+      //Then
+      expect(find.byType(SnackBar), findsNothing);
+      expect(find.text('Incorrect pattern: invalid email'), findsOneWidget);
+    });
+
+    testWidgets(
+        'when the terms and conditions are not selected no snackbar is shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //Given
+      await tester.enterText(find.byKey(const Key('email')), 'hello@email.de');
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello');
+      await tester.enterText(find.byKey(const Key('comment')), 'failed test');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //When
+      await tester.tap(find.byKey(const Key('submit')));
+      await tester.pumpAndSettle();
+
+      //Then
+      expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets('when all fields are ok snackbar is shown',
+        (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const TestApp(child: FlutterFormExample()));
+
+      //Given
+      await tester.enterText(find.byKey(const Key('email')), 'hello@email.de');
+      await tester.enterText(find.byKey(const Key('nickname')), 'hello');
+      await tester.enterText(find.byKey(const Key('comment')), 'failed test');
+      await tester.tap(find.byKey(const Key('radio')));
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      //When
+      await tester.tap(find.byKey(const Key('submit')));
+      await tester.pumpAndSettle();
+
+      //Then
+      expect(find.byType(SnackBar), findsOneWidget);
+    });
   });
+
   group('On ReactiveFormExample Page', () {
     testWidgets('all widgets are present', (WidgetTester tester) async {
       // Build our app and trigger a frame.

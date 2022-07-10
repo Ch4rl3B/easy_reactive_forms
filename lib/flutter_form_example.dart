@@ -26,51 +26,89 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
             vertical: 16,
             horizontal: 24,
           ),
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                key: const Key("nickname"),
-                decoration: const InputDecoration(
-                  label: Text('Nickname'),
-                  prefixIcon: Icon(Icons.person),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  key: const Key("nickname"),
+                  decoration: const InputDecoration(
+                    label: Text('Nickname'),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    if (value.length < 3) {
+                      return 'Incorrect pattern: at least 3 characters';
+                    }
+                    final pattern = RegExp(r'^([^\x00-\x7F]|[\w_\.\-]){3,16}$');
+                    if (!pattern.hasMatch(value)) {
+                      return 'Incorrect pattern: invalid characters';
+                    }
+                    return null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLength: 16,
                 ),
-              ),
-              const SizedBox(height: 4),
-              TextFormField(
-                key: const Key("email"),
-                decoration: const InputDecoration(
-                  label: Text('Email'),
-                  prefixIcon: Icon(Icons.email),
+                const SizedBox(height: 4),
+                TextFormField(
+                  key: const Key("email"),
+                  decoration: const InputDecoration(
+                    label: Text('Email'),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    final pattern = RegExp(r'.+\@.+\..+');
+                    if (!pattern.hasMatch(value)) {
+                      return 'Incorrect pattern: invalid email';
+                    }
+                    return null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
-              ),
-              const SizedBox(height: 4),
-              TextFormField(
-                key: const Key("comment"),
-                decoration: const InputDecoration(
-                  label: Text('Comment'),
-                  prefixIcon: Icon(Icons.textsms),
+                const SizedBox(height: 4),
+                TextFormField(
+                  key: const Key("comment"),
+                  decoration: const InputDecoration(
+                    label: Text('Comment'),
+                    prefixIcon: Icon(Icons.textsms),
+                  ),
+                  minLines: 5,
+                  maxLines: 5,
+                  maxLength: 120,
                 ),
-                minLines: 5,
-                maxLines: 5,
-              ),
-              const SizedBox(height: 4),
-              CheckboxListTile(
-                key: const Key('radio'),
-                title: const Text('Accept terms and conditions'),
-                onChanged: (value){
-                   setState((){
-                     radio = value ?? false;
-                   });
-                },
-                value: radio,
-              ),
-              const SizedBox(height: 4),
-              ElevatedButton(
-                key: const Key('submit'),
-                onPressed: () {},
-                child: const Text('Submit'),
-              ),
-            ],
+                const SizedBox(height: 4),
+                CheckboxListTile(
+                  key: const Key('radio'),
+                  title: const Text('Accept terms and conditions'),
+                  onChanged: (value) {
+                    setState(() {
+                      radio = value ?? false;
+                    });
+                  },
+                  value: radio,
+                ),
+                const SizedBox(height: 4),
+                ElevatedButton(
+                  key: const Key('submit'),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate() && radio) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Processing Data'),
+                          backgroundColor: Colors.greenAccent,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
