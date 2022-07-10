@@ -1,4 +1,3 @@
-import 'package:easy_reactive_forms/main.dart';
 import 'package:flutter/material.dart';
 
 class TestApp extends StatelessWidget {
@@ -10,7 +9,7 @@ class TestApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: title,
+      title: 'Easy Reactive Forms',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

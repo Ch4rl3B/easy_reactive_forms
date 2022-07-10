@@ -22,7 +22,7 @@ void main() {
       await tester.pumpWidget(const MyApp());
 
       expect(find.byType(MyHomePage), findsOneWidget);
-      expect(find.text(title), findsOneWidget);
+      expect(find.text('Easy Reactive Forms'), findsOneWidget);
     });
 
     testWidgets('MyHomeView widgets are present', (WidgetTester tester) async {

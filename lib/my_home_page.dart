@@ -3,9 +3,7 @@ import 'package:easy_reactive_forms/reactive_form_example.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -16,7 +14,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Easy Reactive Forms'),
       ),
       body: Center(
         child: Column(
@@ -49,24 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void onFlutterPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (_) => const FlutterFormExample(),
-      ),
-    );
-  }
-
-  void onReactivePressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (_) => const ReactiveFormExample(),
       ),
     );
   }
