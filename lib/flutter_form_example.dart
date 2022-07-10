@@ -77,7 +77,6 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                     label: Text('Comment'),
                     prefixIcon: Icon(Icons.textsms),
                   ),
-                  minLines: 5,
                   maxLines: 5,
                   maxLength: 120,
                 ),
