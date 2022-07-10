@@ -25,12 +25,26 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               key: const Key('flutter_example'),
-              onPressed: onFlutterPressed,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => const FlutterFormExample(),
+                  ),
+                );
+              },
               child: const Text('Flutter Form example'),
             ),
             ElevatedButton(
               key: const Key('reactive_example'),
-              onPressed: onReactivePressed,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => const ReactiveFormExample(),
+                  ),
+                );
+              },
               child: const Text('Reactive Form example'),
             ),
           ],

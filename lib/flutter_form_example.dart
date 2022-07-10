@@ -11,6 +11,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
+  bool radio = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +29,47 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                key: const Key("text"),
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                key: const Key("nickname"),
+                decoration: const InputDecoration(
+                  label: Text('Nickname'),
+                  prefixIcon: Icon(Icons.person),
+                ),
               ),
-              // ElevatedButton here.
+              const SizedBox(height: 4),
+              TextFormField(
+                key: const Key("email"),
+                decoration: const InputDecoration(
+                  label: Text('Email'),
+                  prefixIcon: Icon(Icons.email),
+                ),
+              ),
+              const SizedBox(height: 4),
+              TextFormField(
+                key: const Key("comment"),
+                decoration: const InputDecoration(
+                  label: Text('Comment'),
+                  prefixIcon: Icon(Icons.textsms),
+                ),
+                minLines: 5,
+                maxLines: 5,
+              ),
+              const SizedBox(height: 4),
+              CheckboxListTile(
+                key: const Key('radio'),
+                title: const Text('Accept terms and conditions'),
+                onChanged: (value){
+                   setState((){
+                     radio = value ?? false;
+                   });
+                },
+                value: radio,
+              ),
+              const SizedBox(height: 4),
+              ElevatedButton(
+                key: const Key('submit'),
+                onPressed: () {},
+                child: const Text('Submit'),
+              ),
             ],
           ),
         ),
