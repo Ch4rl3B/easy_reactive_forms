@@ -1,0 +1,42 @@
+name: easy_reactive_forms
+
+on:
+  # Trigger the workflow on push
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    # Job name is Running Tests
+    name: Tests
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.0.1'
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter test --no-pub --coverage
+      - run: bash <(curl -s https://codecov.io/bash) -t 6ccab126-5915-4074-93f9-bc22ff814453
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.0.1'
+          channel: 'stable'
+      - run: flutter pub get
+      - name: Analyze lib
+        run: flutter analyze lib
+      - name: Analyze test
+        run: flutter analyze test

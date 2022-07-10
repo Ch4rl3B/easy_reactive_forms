@@ -26,7 +26,6 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
 
   @override
   Widget build(BuildContext context) {
-    print('${DateTime.now()}: ReactiveFormExample built');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reactive Form Example'),

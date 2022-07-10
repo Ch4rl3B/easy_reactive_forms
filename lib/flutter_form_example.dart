@@ -18,7 +18,6 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
 
   @override
   Widget build(BuildContext context) {
-    print('${DateTime.now()}: FlutterFormExample built');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Form Example'),
