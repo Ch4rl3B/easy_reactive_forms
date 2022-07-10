@@ -92,8 +92,16 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
                     onPressed: () {
                       if (form.valid) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Processing Data'),
+                          SnackBar(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Nickname: ${form.value['nickname']}'),
+                                Text('Email: ${form.value['email']}'),
+                                Text('Comment: ${form.value['comment']}'),
+                              ],
+                            ),
                             backgroundColor: Colors.greenAccent,
                           ),
                         );

@@ -11,7 +11,9 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  bool radio = false;
+  final _nickname = TextEditingController();
+  final _email = TextEditingController();
+  final _comment = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
               children: <Widget>[
                 TextFormField(
                   key: const Key("nickname"),
+                  controller: _nickname,
                   decoration: const InputDecoration(
                     label: Text('Nickname'),
                     prefixIcon: Icon(Icons.person),
@@ -54,6 +57,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                 const SizedBox(height: 4),
                 TextFormField(
                   key: const Key("email"),
+                  controller: _email,
                   decoration: const InputDecoration(
                     label: Text('Email'),
                     prefixIcon: Icon(Icons.email),
@@ -73,6 +77,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                 const SizedBox(height: 4),
                 TextFormField(
                   key: const Key("comment"),
+                  controller: _comment,
                   decoration: const InputDecoration(
                     label: Text('Comment'),
                     prefixIcon: Icon(Icons.textsms),
@@ -81,24 +86,39 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                   maxLength: 120,
                 ),
                 const SizedBox(height: 4),
-                CheckboxListTile(
-                  key: const Key('radio'),
-                  title: const Text('Accept terms and conditions'),
-                  onChanged: (value) {
-                    setState(() {
-                      radio = value ?? false;
-                    });
+                FormField<bool>(
+                  validator: (value) {
+                    if (value == null || value == false) {
+                      return 'This is required';
+                    }
+                    return null;
                   },
-                  value: radio,
+                  initialValue: false,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  builder: (field) => CheckboxListTile(
+                    key: const Key('radio'),
+                    title: const Text('Accept terms and conditions'),
+                    dense: field.hasError,
+                    onChanged: field.didChange,
+                    value: field.value,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 ElevatedButton(
                   key: const Key('submit'),
                   onPressed: () {
-                    if (_formKey.currentState!.validate() && radio) {
+                    if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Processing Data'),
+                        SnackBar(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Nickname: ${_nickname.text}'),
+                              Text('Email: ${_email.text}'),
+                              Text('Comment: ${_comment.text}'),
+                            ],
+                          ),
                           backgroundColor: Colors.greenAccent,
                         ),
                       );
