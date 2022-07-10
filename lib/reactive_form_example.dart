@@ -9,11 +9,11 @@ class ReactiveFormExample extends StatefulWidget {
 }
 
 class _ReactiveFormExampleState extends State<ReactiveFormExample> {
-
   final _form = FormGroup({
-    'text': FormControl<String>(
-      validators: [Validators.required],
-    ),
+    'nickname': FormControl<String>(),
+    'email': FormControl<String>(),
+    'comment': FormControl<String>(),
+    'radio': FormControl<bool>(),
   });
 
   @override
@@ -29,16 +29,61 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
             vertical: 16,
             horizontal: 24,
           ),
-          child: Column(
-            children: <Widget>[
-              ReactiveTextField<String>(
-                formControlName: 'text',
-                validationMessages: (_) => {
-                  ValidationMessage.required : 'Please enter some text'
-                },
-              ),
-              // Add ElevatedButton here.
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ReactiveTextField<String>(
+                  key: const Key('nickname'),
+                  formControlName: 'nickname',
+                  decoration: const InputDecoration(
+                    label: Text('Nickname'),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                ReactiveTextField<String>(
+                  key: const Key('email'),
+                  formControlName: 'email',
+                  decoration: const InputDecoration(
+                    label: Text('Email'),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                ReactiveTextField<String>(
+                  key: const Key('comment'),
+                  formControlName: 'comment',
+                  decoration: const InputDecoration(
+                    label: Text('Comment'),
+                    prefixIcon: Icon(Icons.textsms),
+                  ),
+                  minLines: 5,
+                  maxLines: 5,
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                ReactiveCheckboxListTile(
+                  key: const Key('radio'),
+                  formControlName: 'radio',
+                  title: const Text('Accept terms and conditions'),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                ReactiveFormConsumer(
+                  key: const Key('submit'),
+                  builder: (context, form, _) => ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Submit'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

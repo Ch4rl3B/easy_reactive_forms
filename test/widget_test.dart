@@ -92,7 +92,13 @@ void main() {
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(ReactiveForm), findsOneWidget);
-      expect(find.byType(ReactiveTextField<String>), findsOneWidget);
+      expect(find.byType(AppBar), findsOneWidget);
+      expect(find.byType(ReactiveForm), findsOneWidget);
+      expect(find.byKey(const Key('nickname')), findsOneWidget);
+      expect(find.byKey(const Key('email')), findsOneWidget);
+      expect(find.byKey(const Key('comment')), findsOneWidget);
+      expect(find.byKey(const Key('radio')), findsOneWidget);
+      expect(find.byKey(const Key('submit')), findsOneWidget);
     });
   });
 }
