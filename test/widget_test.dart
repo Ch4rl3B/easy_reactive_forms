@@ -17,6 +17,18 @@ import 'test_app.dart';
 
 void main() {
   group('On App start', () {
+    testWidgets('application is built', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(const MyApp());
+
+      expect(find.byType(MaterialApp), findsOneWidget);
+
+      final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+      expect(app.title, 'Easy Reactive Forms');
+      expect(app.theme?.primaryColor, Colors.blue);
+    });
+
     testWidgets('home view is loaded', (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const MyApp());
@@ -85,7 +97,7 @@ void main() {
       expect(find.byKey(const Key('nickname')), findsOneWidget);
       expect(find.byKey(const Key('email')), findsOneWidget);
       expect(find.byKey(const Key('comment')), findsOneWidget);
-      expect(find.byKey(const Key('radio')), findsOneWidget);
+      expect(find.byKey(const Key('termsAccepted')), findsOneWidget);
       expect(find.byKey(const Key('submit')), findsOneWidget);
     });
 
@@ -187,7 +199,7 @@ void main() {
       await tester.enterText(find.byKey(const Key('email')), 'hello');
       await tester.enterText(find.byKey(const Key('nickname')), 'hello');
       await tester.enterText(find.byKey(const Key('comment')), 'failed test');
-      await tester.tap(find.byKey(const Key('radio')));
+      await tester.tap(find.byKey(const Key('termsAccepted')));
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
@@ -236,7 +248,7 @@ void main() {
       await tester.enterText(find.byKey(const Key('email')), 'hello@email.de');
       await tester.enterText(find.byKey(const Key('nickname')), 'hello');
       await tester.enterText(find.byKey(const Key('comment')), 'failed test');
-      await tester.tap(find.byKey(const Key('radio')));
+      await tester.tap(find.byKey(const Key('termsAccepted')));
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
@@ -261,7 +273,7 @@ void main() {
       expect(find.byKey(const Key('nickname')), findsOneWidget);
       expect(find.byKey(const Key('email')), findsOneWidget);
       expect(find.byKey(const Key('comment')), findsOneWidget);
-      expect(find.byKey(const Key('radio')), findsOneWidget);
+      expect(find.byKey(const Key('termsAccepted')), findsOneWidget);
       expect(find.byKey(const Key('submit')), findsOneWidget);
     });
 
@@ -363,7 +375,7 @@ void main() {
       await tester.enterText(find.byKey(const Key('email')), 'hello');
       await tester.enterText(find.byKey(const Key('nickname')), 'hello');
       await tester.enterText(find.byKey(const Key('comment')), 'failed test');
-      await tester.tap(find.byKey(const Key('radio')));
+      await tester.tap(find.byKey(const Key('termsAccepted')));
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
       
@@ -412,7 +424,7 @@ void main() {
       await tester.enterText(find.byKey(const Key('email')), 'hello@email.de');
       await tester.enterText(find.byKey(const Key('nickname')), 'hello');
       await tester.enterText(find.byKey(const Key('comment')), 'failed test');
-      await tester.tap(find.byKey(const Key('radio')));
+      await tester.tap(find.byKey(const Key('termsAccepted')));
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 

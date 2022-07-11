@@ -35,7 +35,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  key: const Key("nickname"),
+                  key: const Key('nickname'),
                   controller: _nickname,
                   decoration: const InputDecoration(
                     label: Text('Nickname'),
@@ -46,7 +46,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                       return 'Please enter some text';
                     }
                     if (value.length < 3) {
-                      return 'Incorrect pattern: at least 3 characters';
+                      return 'Field must be at least 3 characters long';
                     }
                     final pattern = RegExp(r'^([^\x00-\x7F]|[\w_\.\-]){3,16}$');
                     if (!pattern.hasMatch(value)) {
@@ -59,7 +59,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                 ),
                 const SizedBox(height: 4),
                 TextFormField(
-                  key: const Key("email"),
+                  key: const Key('email'),
                   controller: _email,
                   decoration: const InputDecoration(
                     label: Text('Email'),
@@ -79,7 +79,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                 ),
                 const SizedBox(height: 4),
                 TextFormField(
-                  key: const Key("comment"),
+                  key: const Key('comment'),
                   controller: _comment,
                   decoration: const InputDecoration(
                     label: Text('Comment'),
@@ -99,7 +99,7 @@ class _FlutterFormExampleState extends State<FlutterFormExample> {
                   initialValue: false,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   builder: (field) => CheckboxListTile(
-                    key: const Key('radio'),
+                    key: const Key('termsAccepted'),
                     title: const Text('Accept terms and conditions'),
                     dense: field.hasError,
                     onChanged: field.didChange,

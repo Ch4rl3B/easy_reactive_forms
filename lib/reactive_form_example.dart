@@ -21,7 +21,7 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
       validators: [Validators.required, Validators.email],
     ),
     'comment': FormControl<String>(),
-    'radio': FormControl<bool>(validators: [Validators.requiredTrue]),
+    'termsAccepted': FormControl<bool>(validators: [Validators.requiredTrue]),
   });
 
   @override
@@ -50,7 +50,7 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
                   validationMessages: (_) => {
                     ValidationMessage.required: 'Please enter some text',
                     ValidationMessage.minLength:
-                        'Incorrect pattern: at least 3 characters',
+                        'Field must be at least 3 characters long',
                     ValidationMessage.pattern:
                         'Incorrect pattern: invalid characters',
                   },
@@ -81,8 +81,8 @@ class _ReactiveFormExampleState extends State<ReactiveFormExample> {
                 ),
                 const SizedBox(height: 4),
                 ReactiveCheckboxListTile(
-                  key: const Key('radio'),
-                  formControlName: 'radio',
+                  key: const Key('termsAccepted'),
+                  formControlName: 'termsAccepted',
                   title: const Text('Accept terms and conditions'),
                 ),
                 const SizedBox(height: 4),
